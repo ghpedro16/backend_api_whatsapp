@@ -25,3 +25,44 @@ app.use((request, response, next) => {
     app.use(cors())
     next() //Proximo, carregar os proximos endpoints
 })
+
+//EndPoint que retorna todos os usuarios
+app.get('/v1/users', function(request, response){
+    //Pesquisa na função os estados
+    let usuarios = dados.getAllUsers()
+    //Retorna o status code e o JSON
+    response.status(usuarios.status_code).json(usuarios)
+})
+
+//EndPoint que retorna usuario pelo numero
+app.get('/v1/user/:numero', function(request, response){
+    //Variavel que recebe o parametro da url
+    let user = request.params.numero
+
+    //Pesquisa na função os usuarios
+    let usuarios = dados.getUserByNumber(user)
+    //Retorna o status code e o JSON
+    response.status(usuarios.status_code).json(usuarios)
+})
+
+//EndPoint que retorna informacoes sobre os contatos do usuario
+app.get('/v1/user/contatos/:numero', function(request, response){
+    //Variavel que recebe o parametro da url
+    let user = request.params.numero
+
+    //Pesquisa na função os usuarios
+    let contato = dados.getContactUserByNumber(user)
+    //Retorna o status code e o JSON
+    response.status(contato.status_code).json(contato)
+})
+
+//EndPoint que retorna as mensagens existentes do usuario com todos os contatos
+app.get('/v1/user/messages/:numero', function(request, response){
+    //Variavel que recebe o parametro da url
+    let user = request.params.numero
+
+    //Pesquisa na função os usuarios
+    let mensagens = dados.getContactUserByNumber(user)
+    //Retorna o status code e o JSON
+    response.status(mensagens.status_code).json(mensagens)
+})

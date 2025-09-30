@@ -42,10 +42,14 @@ const getContactUserByNumber = function(number){
 
     dados.contatos['whats-users'].forEach(function(item){
         if(item.number == number){
-            let json = {}
-            json.nome = item.contacts.name
+            item.contacts.forEach(function(contatos){
+                let json = {}
+                json.nome = contatos.name
+                json.imagem = contatos.image
+                json.descricao = contatos.description
 
-            message.contatos.push(json)
+                message.contatos.push(json)
+            })
         }
     })
 
@@ -53,11 +57,74 @@ const getContactUserByNumber = function(number){
 }
 
 const getMessagesUserByNumber = function(number){
+    let message = {status: true, status_code: 200, development: 'Pedro Henrique Araújo', mensagens: []}
 
+    dados.contatos['whats-users'].forEach(function(item){
+        if(item.number == number){
+            let json = {}
+            json.contatos = item.contacts
+
+            message.mensagens.push(json)
+        }
+    })
+
+    return message
 }
 
-const getMessageContactByNumber = function(number){
+const getMessageContactByNumber = function(number, contactNumber){
+    let message = {status: true, status_code: 200, development: 'Pedro Henrique Araújo', contato: []}
 
+    dados.contatos['whats-users'].forEach(function(item){
+        if(item.number == number){
+            item.contacts.forEach(function (contatos){
+                if(contatos.number == contactNumber){
+                    let json = {}
+                    json.nome = contatos.name
+                    json.numero = contatos.number
+                    json.mensagens = contatos.messages
+
+                    message.contato.push(json)
+                }
+               
+            })
+        }
+    })
+
+    return message
 }
 
-console.log(getContactUserByNumber('11987876567'))
+const getMessageByKeyword = function(number, contactNumber, keyword){
+    let message = {status: true, status_code: 200, development: 'Pedro Henrique Araújo', contato: []}
+
+    dados.contatos['whats-users'].forEach(function(item){
+        if(item.number == number){
+            item.contacts.forEach(function(contato){
+                if(contato.number == contactNumber){
+                    contato.messages.forEach(function(mensagem){
+                        if(mensagem.content.includes(keyword)){
+                            
+                            message.contato.push(mensagem.content)
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+    
+    return message
+    
+    
+}
+
+
+console.log(getMessageByKeyword('11987876567', '26999999967', 'amor'))
+
+module.exports = {
+    getAllUsers,
+    getUserByNumber,
+    getMessagesUserByNumber,
+    getMessageContactByNumber,
+    getContactUserByNumber,
+    getMessageByKeyword
+}
