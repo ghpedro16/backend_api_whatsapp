@@ -6,7 +6,7 @@
  *********************************************************************************************************************************************************/
 
 const dados = require('./contatos.js')
-const MESSAGE_ERRO = {status: false, status_code: 404, development: 'Pedro Henrique Araújo'}
+const MESSAGE_ERRO = {status: false, status_code: 500, development: 'Pedro Henrique Araújo'}
 
 const getAllUsers = function(){
     let message = {status: true, status_code: 200, development: 'Pedro Henrique Araújo', usuarios: []}
@@ -14,7 +14,12 @@ const getAllUsers = function(){
         message.usuarios.push(item)
     })
 
-    return message
+    if(message.usuarios.length > 0){
+        return message
+    }else{
+        return MESSAGE_ERRO
+    }
+    
 }
 
 const getUserByNumber = function(number){
@@ -34,7 +39,12 @@ const getUserByNumber = function(number){
         }
     })
 
-    return message
+    if(message.usuario.length > 0){
+        return message
+    }else{
+        return MESSAGE_ERRO
+    }
+    
 }
 
 const getContactUserByNumber = function(number){
@@ -53,7 +63,12 @@ const getContactUserByNumber = function(number){
         }
     })
 
-    return message
+    if(message.contatos.length > 0){
+        return message
+    }else{
+        return MESSAGE_ERRO
+    }
+    
 }
 
 const getMessagesUserByNumber = function(number){
@@ -68,7 +83,12 @@ const getMessagesUserByNumber = function(number){
         }
     })
 
-    return message
+    if(message.mensagens.length > 0){
+        return message
+    }else{
+        return MESSAGE_ERRO
+    }
+    
 }
 
 const getMessageContactByNumber = function(number, contactNumber){
@@ -90,7 +110,12 @@ const getMessageContactByNumber = function(number, contactNumber){
         }
     })
 
-    return message
+    if(message.contato.length > 0){
+        return message
+    }else{
+        return MESSAGE_ERRO
+    }
+    
 }
 
 const getMessageByKeyword = function(number, contactNumber, keyword){
@@ -111,14 +136,13 @@ const getMessageByKeyword = function(number, contactNumber, keyword){
         }
     })
 
-    
-    return message
-    
+    if(message.contato.length > 0){
+        return message
+    }else{
+        return MESSAGE_ERRO
+    }
     
 }
-
-
-console.log(getMessageByKeyword('11987876567', '26999999967', 'amor'))
 
 module.exports = {
     getAllUsers,

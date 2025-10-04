@@ -7,6 +7,7 @@
 
 //Import das dependencias da API
 const express = require('express') //Responsavel pela API
+const cors = require('cors')
 
 //Import do arquivo de funções
 const dados = require('./modulo/funcoes.js')
@@ -62,7 +63,34 @@ app.get('/v1/user/messages/:numero', function(request, response){
     let user = request.params.numero
 
     //Pesquisa na função os usuarios
-    let mensagens = dados.getContactUserByNumber(user)
+    let mensagens = dados.getMessagesUserByNumber(user)
     //Retorna o status code e o JSON
     response.status(mensagens.status_code).json(mensagens)
+})
+
+app.get('/v1/user/messages/contato', function(request, response){
+    //Variavel que recebe o parametro via Query
+    let user = request.query.user
+    let contato = request.query.contato
+
+    //Pesquisa na função
+    let mensagens = dados.getMessageContactByNumber(user, contato)
+    //Retorna o status code e o JSON
+    response.status(mensagens.status_code).json(mensagens)
+})
+
+app.get('/v1/user/message/keyword', function(request, response){
+    //Variavel que recebe o parametro via Query
+    let user = request.query.user
+    let contato = request.query.contato
+    let keyword = request.query.keyword
+
+    //Pesquisa na função
+    let mensagens = dados.getMessageByKeyword(user, contato, keyword)
+    //Retorna o status code e o JSON
+    response.status(mensagens.status_code).json(mensagens)
+})
+
+app.listen(PORT, function(){
+    console.log('API aguardando requisições...')
 })
